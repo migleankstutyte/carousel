@@ -1,11 +1,11 @@
-import { newSpecPage } from '@stencil/core/testing';
-import { MyComponent } from './my-component';
+import { newSpecPage } from "@stencil/core/testing";
+import { Carousel } from "./carousel";
 
-describe('my-component', () => {
-  it('renders', async () => {
+describe("my-component", () => {
+  it("renders", async () => {
     const { root } = await newSpecPage({
-      components: [MyComponent],
-      html: '<my-component></my-component>',
+      components: [Carousel],
+      html: "<my-component></my-component>",
     });
     expect(root).toEqualHtml(`
       <my-component>
@@ -18,9 +18,9 @@ describe('my-component', () => {
     `);
   });
 
-  it('renders with values', async () => {
+  it("renders with values", async () => {
     const { root } = await newSpecPage({
-      components: [MyComponent],
+      components: [Carousel],
       html: `<my-component first="Stencil" last="'Don't call me a framework' JS"></my-component>`,
     });
     expect(root).toEqualHtml(`

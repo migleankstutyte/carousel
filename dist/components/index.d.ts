@@ -1,5 +1,5 @@
 /* carousel custom elements */
-export { MyComponent as MyComponent } from '../types/components/my-component/my-component';
+export { Carousel as MyComponent } from '../types/components/carousel/carousel';
 
 /**
  * Used to manually set the base path where assets can be found.
