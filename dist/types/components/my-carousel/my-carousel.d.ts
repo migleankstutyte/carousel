@@ -1,4 +1,4 @@
-export declare class Carousel {
+export declare class MyCarousel {
   first: string;
   middle: string;
   last: string;

@@ -1,11 +1,11 @@
 import { Component, Prop, h, Element, State } from "@stencil/core";
 
 @Component({
-  tag: "my-component",
-  styleUrl: "carousel.scss",
+  tag: "my-carousel",
+  styleUrl: "my-carousel.scss",
   shadow: true,
 })
-export class Carousel {
+export class MyCarousel {
   @Prop() first: string;
   @Prop() middle: string;
   @Prop() last: string;
