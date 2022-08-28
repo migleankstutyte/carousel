@@ -1,5 +1,6 @@
 .container {
   text-align: center;
+  margin: 0 90px;
 
   h1 {
     text-transform: uppercase;
@@ -8,6 +9,10 @@
   .slides {
     display: flex;
     transition: transform 0.5s ease-in-out;
+    overflow-x: hidden;
+    width: 60%;
+    min-width: 700px;
+    margin: auto;
 
     div {
       display: flex;
@@ -42,23 +47,23 @@
   }
 
   .button-container {
-    display: flex;
-    justify-content: space-between;
+    position: absolute;
+    top: calc(40%);
 
     .button {
       background: inherit;
       border: none;
       font-size: 100px;
       color: white;
-      position: absolute;
-      top: calc(35%);
       cursor: pointer;
       transition: all 0.5s ease-in-out;
       &__next {
-        right: 30px;
+        position: absolute;
+        left: 1200px;
       }
       &__prev {
-        left: 30px;
+        position: absolute;
+        left: 350px;
       }
 
       &:hover {
@@ -68,6 +73,8 @@
       &[disabled],
       &[disabled]:hover {
         opacity: 0.25;
+        transform: scale(1);
+        cursor: not-allowed;
       }
     }
   }

@@ -7,9 +7,6 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface MyCarousel {
-        "first": string;
-        "last": string;
-        "middle": string;
     }
 }
 declare global {
@@ -25,9 +22,6 @@ declare global {
 }
 declare namespace LocalJSX {
     interface MyCarousel {
-        "first"?: string;
-        "last"?: string;
-        "middle"?: string;
     }
     interface IntrinsicElements {
         "my-carousel": MyCarousel;

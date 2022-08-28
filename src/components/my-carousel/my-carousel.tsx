@@ -1,4 +1,4 @@
-import { Component, Prop, h, Element, State } from "@stencil/core";
+import { Component, h, Element, State } from "@stencil/core";
 
 @Component({
   tag: "my-carousel",
@@ -6,17 +6,11 @@ import { Component, Prop, h, Element, State } from "@stencil/core";
   shadow: true,
 })
 export class MyCarousel {
-  @Prop() first: string;
-  @Prop() middle: string;
-  @Prop() last: string;
-
   @Element() el: HTMLElement;
   @State() currentSlideNumber: number = 0;
   @State() nextSlide: number = 1;
   private slidesCount: number = 0;
   private slides = [];
-  private sliderList: HTMLElement;
-  private slideWidth: number = 0;
   private controls: object = {
     prev: null,
     next: null,
@@ -92,9 +86,13 @@ export class MyCarousel {
 
     this.slidesCount = this.items.length;
     this.getCurrentSlides();
+  }
 
-    console.log("items", this.items);
-    console.log("items length", this.items.length);
+  componentWillRender() {
+    window.setTimeout(() => {
+      this.slide();
+      this.showNextSlide(this.nextSlide);
+    }, 3000);
   }
 
   getCurrentSlides() {
@@ -115,8 +113,6 @@ export class MyCarousel {
   }
 
   componentDidLoad() {
-    this.sliderList = this.el.shadowRoot.getElementById("slides");
-    this.slideWidth = (this.items[0] as HTMLElement).offsetWidth;
     for (let type in this.controls)
       this.controls[type] = this.el.shadowRoot.querySelector(
         ".button__" + type
@@ -129,14 +125,10 @@ export class MyCarousel {
   }
 
   slide() {
-    console.log("nextSlide before", this.nextSlide);
     let slideTo = this.nextSlide;
-
-    console.log("slideTo", slideTo);
     if (slideTo < 0 || slideTo >= this.slidesCount) return;
     this.currentSlideNumber = slideTo;
     this.nextSlide = slideTo + 1;
-    console.log("nextSlide after", this.nextSlide);
   }
 
   updateControls() {
@@ -151,22 +143,33 @@ export class MyCarousel {
     if (this.controls[type]) this.controls[type].disabled = !enabled;
   }
 
-  currentSlide(n) {
-    console.log("n", n);
+  currentSlide = (n) => {
     this.nextSlide = n;
-  }
+    this.showNextSlide(this.nextSlide);
+  };
 
-  showSlides(n) {
-    let slides = document.getElementsByClassName("slides");
-    let dots = document.getElementsByClassName("dot");
-    if (n > slides.length) {
-      this.nextSlide = 1;
+  showNextSlide = (id) => {
+    let i;
+    let slides = this.el.shadowRoot.getElementById("slides");
+    const childNodes = Array.from(slides.childNodes);
+
+    for (i = 0; i < childNodes.length; i++) {
+      let el = childNodes[i];
+      let image = el.firstChild;
+      let title = el.textContent;
+
+      let titleContainer = this.el.shadowRoot.getElementById("slider-title");
+      let imageContainer = this.el.shadowRoot.getElementById("slider-img");
+      let mainSlide = this.el.shadowRoot.querySelector(".slide");
+
+      if (i === id - 1) {
+        childNodes[i].replaceWith(mainSlide, el);
+        titleContainer.textContent = title;
+      } else if (id === 1) {
+        titleContainer.textContent = this.items[0].title;
+      }
     }
-    if (n < 1) {
-      this.nextSlide = slides.length;
-    }
-    dots[this.nextSlide - 1].className += " active";
-  }
+  };
 
   render() {
     return (
@@ -174,15 +177,9 @@ export class MyCarousel {
         <h1 tabindex="1">Do you want to have a trip?</h1>
         <div id="slides" class="slides">
           {this.items.map((slide) => (
-            <div>
-              <img
-                src={slide.imgUrl}
-                id={slide.id}
-                onClick={() => console.log("slide.id", slide.id)}
-                key={slide.id}
-                alt={slide.title}
-              />
-              <span>{slide.title}</span>
+            <div class="slide" key={slide.id} id={slide.id}>
+              <img src={slide.imgUrl} alt={slide.title} id="slider-img" />
+              <span id="slider-title">{slide.title}</span>
             </div>
           ))}
         </div>
@@ -217,7 +214,6 @@ export class MyCarousel {
             ></span>
           ))}
         </div>
-
         {this.nextSlide === this.slidesCount && (
           <h1>Have you enjoyed the trip?</h1>
         )}

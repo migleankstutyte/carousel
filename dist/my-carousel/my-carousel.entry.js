@@ -1,6 +1,6 @@
-import { r as registerInstance, h, g as getElement } from './index-0fe51005.js';
+import { r as registerInstance, h, g as getElement } from './index-24af656b.js';
 
-const myCarouselCss = ".container{text-align:center}.container h1{text-transform:uppercase}.container .slides{display:flex;transition:transform 0.5s ease-in-out}.container .slides div{display:flex;flex-direction:column}.container .slides div img{height:600px;width:1000px}.container .slider-dots{display:flex;justify-content:center}.container .slider-dots .dot{cursor:pointer;height:15px;width:15px;margin:0 2px;background-color:#bbb;border-radius:50%;display:inline-block;transition:background-color 0.6s ease}.container .slider-dots .dot:hover,.container .slider-dots .dot:active{background-color:#717171}.container .button-container{display:flex;justify-content:space-between}.container .button-container .button{background:inherit;border:none;font-size:100px;color:white;position:absolute;top:35%;cursor:pointer;transition:all 0.5s ease-in-out}.container .button-container .button__next{right:30px}.container .button-container .button__prev{left:30px}.container .button-container .button:hover{transform:scale(1.5)}.container .button-container .button[disabled],.container .button-container .button[disabled]:hover{opacity:0.25}";
+const myCarouselCss = ".container{text-align:center;margin:0 90px}.container h1{text-transform:uppercase}.container .slides{display:flex;transition:transform 0.5s ease-in-out;overflow-x:hidden;width:60%;min-width:700px;margin:auto}.container .slides div{display:flex;flex-direction:column}.container .slides div img{height:600px;width:1000px}.container .slider-dots{display:flex;justify-content:center}.container .slider-dots .dot{cursor:pointer;height:15px;width:15px;margin:0 2px;background-color:#bbb;border-radius:50%;display:inline-block;transition:background-color 0.6s ease}.container .slider-dots .dot:hover,.container .slider-dots .dot:active{background-color:#717171}.container .button-container{position:absolute;top:40%}.container .button-container .button{background:inherit;border:none;font-size:100px;color:white;cursor:pointer;transition:all 0.5s ease-in-out}.container .button-container .button__next{position:absolute;left:1200px}.container .button-container .button__prev{position:absolute;left:350px}.container .button-container .button:hover{transform:scale(1.5)}.container .button-container .button[disabled],.container .button-container .button[disabled]:hover{opacity:0.25;transform:scale(1);cursor:not-allowed}";
 
 const MyCarousel = class {
   constructor(hostRef) {
@@ -9,13 +9,36 @@ const MyCarousel = class {
     this.nextSlide = 1;
     this.slidesCount = 0;
     this.slides = [];
-    this.slideWidth = 0;
     this.controls = {
       prev: null,
       next: null,
     };
     this.start = 0;
     this.end = 5;
+    this.currentSlide = (n) => {
+      this.nextSlide = n;
+      this.showNextSlide(this.nextSlide);
+    };
+    this.showNextSlide = (id) => {
+      let i;
+      let slides = this.el.shadowRoot.getElementById("slides");
+      const childNodes = Array.from(slides.childNodes);
+      for (i = 0; i < childNodes.length; i++) {
+        let el = childNodes[i];
+        let image = el.firstChild;
+        let title = el.textContent;
+        let titleContainer = this.el.shadowRoot.getElementById("slider-title");
+        let imageContainer = this.el.shadowRoot.getElementById("slider-img");
+        let mainSlide = this.el.shadowRoot.querySelector(".slide");
+        if (i === id - 1) {
+          childNodes[i].replaceWith(mainSlide, el);
+          titleContainer.textContent = title;
+        }
+        else if (id === 1) {
+          titleContainer.textContent = this.items[0].title;
+        }
+      }
+    };
   }
   componentWillLoad() {
     this.items = [
@@ -72,8 +95,12 @@ const MyCarousel = class {
     ];
     this.slidesCount = this.items.length;
     this.getCurrentSlides();
-    console.log("items", this.items);
-    console.log("items length", this.items.length);
+  }
+  componentWillRender() {
+    window.setTimeout(() => {
+      this.slide();
+      this.showNextSlide(this.nextSlide);
+    }, 3000);
   }
   getCurrentSlides() {
     if (this.start == this.items.length) {
@@ -92,8 +119,6 @@ const MyCarousel = class {
       this.end = this.items.length - 1;
   }
   componentDidLoad() {
-    this.sliderList = this.el.shadowRoot.getElementById("slides");
-    this.slideWidth = this.items[0].offsetWidth;
     for (let type in this.controls)
       this.controls[type] = this.el.shadowRoot.querySelector(".button__" + type);
     this.updateControls();
@@ -102,14 +127,11 @@ const MyCarousel = class {
     this.updateControls();
   }
   slide() {
-    console.log("nextSlide before", this.nextSlide);
     let slideTo = this.nextSlide;
-    console.log("slideTo", slideTo);
     if (slideTo < 0 || slideTo >= this.slidesCount)
       return;
     this.currentSlideNumber = slideTo;
     this.nextSlide = slideTo + 1;
-    console.log("nextSlide after", this.nextSlide);
   }
   updateControls() {
     this.switchControl("prev", this.nextSlide === 1 ? false : true);
@@ -119,23 +141,8 @@ const MyCarousel = class {
     if (this.controls[type])
       this.controls[type].disabled = !enabled;
   }
-  currentSlide(n) {
-    console.log("n", n);
-    this.nextSlide = n;
-  }
-  showSlides(n) {
-    let slides = document.getElementsByClassName("slides");
-    let dots = document.getElementsByClassName("dot");
-    if (n > slides.length) {
-      this.nextSlide = 1;
-    }
-    if (n < 1) {
-      this.nextSlide = slides.length;
-    }
-    dots[this.nextSlide - 1].className += " active";
-  }
   render() {
-    return (h("div", { class: "container" }, h("h1", { tabindex: "1" }, "Do you want to have a trip?"), h("div", { id: "slides", class: "slides" }, this.items.map((slide) => (h("div", null, h("img", { src: slide.imgUrl, id: slide.id, onClick: () => console.log("slide.id", slide.id), key: slide.id, alt: slide.title }), h("span", null, slide.title))))), h("div", { class: "button-container" }, h("button", { type: "button", class: "button button__prev", onClick: this.slide.bind(this, -1), tabindex: "2" }, "\u2039"), h("button", { type: "button", class: "button button__next", onClick: this.slide.bind(this, 1), tabindex: "3" }, "\u203A")), h("div", null, "Slide ", h("span", { tabindex: "4" }, this.nextSlide), "/", h("span", { tabindex: "5" }, this.slidesCount)), h("div", { class: "slider-dots" }, this.items.map((slide) => (h("span", { class: "dot", onClick: this.currentSlide.bind(this, slide.id) })))), this.nextSlide === this.slidesCount && (h("h1", null, "Have you enjoyed the trip?"))));
+    return (h("div", { class: "container" }, h("h1", { tabindex: "1" }, "Do you want to have a trip?"), h("div", { id: "slides", class: "slides" }, this.items.map((slide) => (h("div", { class: "slide", key: slide.id, id: slide.id }, h("img", { src: slide.imgUrl, alt: slide.title, id: "slider-img" }), h("span", { id: "slider-title" }, slide.title))))), h("div", { class: "button-container" }, h("button", { type: "button", class: "button button__prev", onClick: this.slide.bind(this, -1), tabindex: "2" }, "\u2039"), h("button", { type: "button", class: "button button__next", onClick: this.slide.bind(this, 1), tabindex: "3" }, "\u203A")), h("div", null, "Slide ", h("span", { tabindex: "4" }, this.nextSlide), "/", h("span", { tabindex: "5" }, this.slidesCount)), h("div", { class: "slider-dots" }, this.items.map((slide) => (h("span", { class: "dot", onClick: this.currentSlide.bind(this, slide.id) })))), this.nextSlide === this.slidesCount && (h("h1", null, "Have you enjoyed the trip?"))));
   }
   get el() { return getElement(this); }
 };
