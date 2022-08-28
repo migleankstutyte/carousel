@@ -118,7 +118,9 @@ export class MyCarousel {
     this.sliderList = this.el.shadowRoot.getElementById("slides");
     this.slideWidth = (this.items[0] as HTMLElement).offsetWidth;
     for (let type in this.controls)
-      this.controls[type] = this.el.shadowRoot.querySelector(".btn_" + type);
+      this.controls[type] = this.el.shadowRoot.querySelector(
+        ".button__" + type
+      );
     this.updateControls();
   }
 
@@ -184,23 +186,24 @@ export class MyCarousel {
             </div>
           ))}
         </div>
-        <button
-          type="button"
-          class="btn_prev"
-          onClick={this.slide.bind(this, -1)}
-          tabindex="2"
-        >
-          Previous
-        </button>
-        <button
-          type="button"
-          class="btn_next"
-          onClick={this.slide.bind(this, 1)}
-          tabindex="3"
-        >
-          Next
-        </button>
-
+        <div class="button-container">
+          <button
+            type="button"
+            class="button button__prev"
+            onClick={this.slide.bind(this, -1)}
+            tabindex="2"
+          >
+            &lsaquo;
+          </button>
+          <button
+            type="button"
+            class="button button__next"
+            onClick={this.slide.bind(this, 1)}
+            tabindex="3"
+          >
+            &rsaquo;
+          </button>
+        </div>
         <div>
           Slide <span tabindex="4">{this.nextSlide}</span>/
           <span tabindex="5">{this.slidesCount}</span>

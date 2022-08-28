@@ -1,6 +1,6 @@
 import { r as registerInstance, h, g as getElement } from './index-0fe51005.js';
 
-const myCarouselScss = ".container {\n  text-align: center;\n}\nh1 {\n  text-transform: uppercase;\n}\n\n.slides {\n  display: flex;\n  transition: transform 0.5s ease-in-out;\n}\n\n.slides div {\n  display: flex;\n  flex-direction: column;\n}\n\n.slides div img {\n  height: 600px;\n  width: 1000px;\n}\n\n.slider-dots {\n  display: flex;\n}\n\n.dot {\n  cursor: pointer;\n  height: 15px;\n  width: 15px;\n  margin: 0 2px;\n  background-color: #bbb;\n  border-radius: 50%;\n  display: inline-block;\n  transition: background-color 0.6s ease;\n}\n\n.active,\n.dot:hover {\n  background-color: #717171;\n}\n\nbutton {\n  position: absolute;\n  z-index: 1;\n  top: calc(50% - 32px);\n  padding: 20px;\n  font-size: 20px;\n  line-height: 20px;\n  opacity: 0.5;\n\n  &:hover {\n    opacity: 1;\n    transition: opacity 0.5s ease-in-out;\n  }\n\n  &[disabled],\n  &[disabled]:hover {\n    opacity: 0.25;\n  }\n\n  &.btn_next {\n    right: 0;\n  }\n}\n\n.btn_prev {\n  margin-top: 150px;\n\n  &:hover {\n    background-color: black;\n  }\n}\n";
+const myCarouselCss = ".container{text-align:center}.container h1{text-transform:uppercase}.container .slides{display:flex;transition:transform 0.5s ease-in-out}.container .slides div{display:flex;flex-direction:column}.container .slides div img{height:600px;width:1000px}.container .slider-dots{display:flex;justify-content:center}.container .slider-dots .dot{cursor:pointer;height:15px;width:15px;margin:0 2px;background-color:#bbb;border-radius:50%;display:inline-block;transition:background-color 0.6s ease}.container .slider-dots .dot:hover,.container .slider-dots .dot:active{background-color:#717171}.container .button-container{display:flex;justify-content:space-between}.container .button-container .button{background:inherit;border:none;font-size:100px;color:white;position:absolute;top:35%;cursor:pointer;transition:all 0.5s ease-in-out}.container .button-container .button__next{right:30px}.container .button-container .button__prev{left:30px}.container .button-container .button:hover{transform:scale(1.5)}.container .button-container .button[disabled],.container .button-container .button[disabled]:hover{opacity:0.25}";
 
 const MyCarousel = class {
   constructor(hostRef) {
@@ -95,7 +95,7 @@ const MyCarousel = class {
     this.sliderList = this.el.shadowRoot.getElementById("slides");
     this.slideWidth = this.items[0].offsetWidth;
     for (let type in this.controls)
-      this.controls[type] = this.el.shadowRoot.querySelector(".btn_" + type);
+      this.controls[type] = this.el.shadowRoot.querySelector(".button__" + type);
     this.updateControls();
   }
   componentDidUpdate() {
@@ -135,10 +135,10 @@ const MyCarousel = class {
     dots[this.nextSlide - 1].className += " active";
   }
   render() {
-    return (h("div", { class: "container" }, h("h1", { tabindex: "1" }, "Do you want to have a trip?"), h("div", { id: "slides", class: "slides" }, this.items.map((slide) => (h("div", null, h("img", { src: slide.imgUrl, id: slide.id, onClick: () => console.log("slide.id", slide.id), key: slide.id, alt: slide.title }), h("span", null, slide.title))))), h("button", { type: "button", class: "btn_prev", onClick: this.slide.bind(this, -1), tabindex: "2" }, "Previous"), h("button", { type: "button", class: "btn_next", onClick: this.slide.bind(this, 1), tabindex: "3" }, "Next"), h("div", null, "Slide ", h("span", { tabindex: "4" }, this.nextSlide), "/", h("span", { tabindex: "5" }, this.slidesCount)), h("div", { class: "slider-dots" }, this.items.map((slide) => (h("span", { class: "dot", onClick: this.currentSlide.bind(this, slide.id) })))), this.nextSlide === this.slidesCount && (h("h1", null, "Have you enjoyed the trip?"))));
+    return (h("div", { class: "container" }, h("h1", { tabindex: "1" }, "Do you want to have a trip?"), h("div", { id: "slides", class: "slides" }, this.items.map((slide) => (h("div", null, h("img", { src: slide.imgUrl, id: slide.id, onClick: () => console.log("slide.id", slide.id), key: slide.id, alt: slide.title }), h("span", null, slide.title))))), h("div", { class: "button-container" }, h("button", { type: "button", class: "button button__prev", onClick: this.slide.bind(this, -1), tabindex: "2" }, "\u2039"), h("button", { type: "button", class: "button button__next", onClick: this.slide.bind(this, 1), tabindex: "3" }, "\u203A")), h("div", null, "Slide ", h("span", { tabindex: "4" }, this.nextSlide), "/", h("span", { tabindex: "5" }, this.slidesCount)), h("div", { class: "slider-dots" }, this.items.map((slide) => (h("span", { class: "dot", onClick: this.currentSlide.bind(this, slide.id) })))), this.nextSlide === this.slidesCount && (h("h1", null, "Have you enjoyed the trip?"))));
   }
   get el() { return getElement(this); }
 };
-MyCarousel.style = myCarouselScss;
+MyCarousel.style = myCarouselCss;
 
 export { MyCarousel as my_carousel };
