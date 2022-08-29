@@ -1,4 +1,4 @@
-import { Component, h, State, Method } from "@stencil/core";
+import { Component, h, State, Method, Prop } from "@stencil/core";
 import data from "./data";
 
 export interface TSlide {
@@ -12,6 +12,7 @@ export interface TSlide {
   shadow: true,
 })
 export class MyCarousel {
+  @Prop() duration: number;
   @State() selected: TSlide = data[0];
   @State() selectedIndex: number = 0;
 
@@ -34,7 +35,7 @@ export class MyCarousel {
   componentWillRender() {
     window.setTimeout(() => {
       this.switchSlide(1);
-    }, 3000);
+    }, this.duration);
   }
 
   render() {

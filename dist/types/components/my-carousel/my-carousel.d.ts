@@ -4,6 +4,7 @@ export interface TSlide {
   selected?: boolean;
 }
 export declare class MyCarousel {
+  duration: number;
   selected: TSlide;
   selectedIndex: number;
   selectSlide(i: number): void;

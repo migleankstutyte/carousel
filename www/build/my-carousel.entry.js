@@ -1,4 +1,4 @@
-import { r as registerInstance, h } from './index-d3227635.js';
+import { r as registerInstance, h } from './index-210ef1a0.js';
 
 const data = [
   {
@@ -68,7 +68,7 @@ const MyCarousel = class {
   componentWillRender() {
     window.setTimeout(() => {
       this.switchSlide(1);
-    }, 3000);
+    }, this.duration);
   }
   render() {
     return (h("div", { class: "container" }, h("h1", { tabindex: "1" }, "Do you want to have a trip?"), h("div", { id: "slides", class: "slides" }, h("div", { class: "slide" }, h("img", { src: this.selected.imgUrl, alt: this.selected.title, id: "slider-img" }), h("span", { id: "slider-title" }, this.selected.title))), h("div", { class: "button-container" }, h("button", { type: "button", class: "button button__prev", onClick: () => this.switchSlide(-1), tabindex: "2" }, "\u2039"), h("button", { type: "button", class: "button button__next", onClick: () => this.switchSlide(1), tabindex: "3" }, "\u203A")), h("div", null, "Slide ", h("span", { tabindex: "4" }, this.selectedIndex + 1), "/", h("span", { tabindex: "5" }, data.length)), h("div", { class: "slider-dots" }, data.map((_, index) => (h("span", { class: `dot ${this.selectedIndex === index ? " active" : ""}`, onClick: () => this.selectSlide(index) })))), this.selectedIndex + 1 === data.length && (h("h1", null, "Have you enjoyed the trip?"))));
