@@ -1,4 +1,4 @@
-import { B as BUILD, c as consoleDevInfo, p as plt, w as win, H, d as doc, N as NAMESPACE, a as promiseResolve, b as bootstrapLazy } from './index-7c4f288d.js';
+import { B as BUILD, c as consoleDevInfo, p as plt, w as win, H, d as doc, N as NAMESPACE, a as promiseResolve, b as bootstrapLazy } from './index-d3227635.js';
 import { g as globalScripts } from './app-globals-0f993ce5.js';
 
 /*
@@ -125,5 +125,5 @@ const patchCloneNodeFix = (HTMLElementPrototype) => {
 
 patchBrowser().then(options => {
   globalScripts();
-  return bootstrapLazy([["my-carousel",[[1,"my-carousel",{"currentSlideNumber":[32],"nextSlide":[32]}]]]], options);
+  return bootstrapLazy([["my-carousel",[[1,"my-carousel",{"selected":[32],"selectedIndex":[32],"selectSlide":[64]}]]]], options);
 });

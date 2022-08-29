@@ -4,19 +4,10 @@ export interface TSlide {
   selected?: boolean;
 }
 export declare class MyCarousel {
-  el: HTMLElement;
-  currentSlideNumber: number;
-  nextSlide: number;
-  private controls;
-  private items;
-  componentWillLoad(): void;
+  selected: TSlide;
+  selectedIndex: number;
+  selectSlide(i: number): void;
+  switchSlide(i: number): void;
   componentWillRender(): void;
-  componentDidLoad(): void;
-  componentDidUpdate(): void;
-  slide(): void;
-  updateControls(): void;
-  switchControl(type: string, enabled: boolean): void;
-  currentSlide: (n: any) => void;
-  showNextSlide: (id: any) => void;
   render(): any;
 }

@@ -7,6 +7,7 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface MyCarousel {
+        "selectSlide": (i: number) => Promise<void>;
     }
 }
 declare global {

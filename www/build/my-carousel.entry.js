@@ -1,4 +1,4 @@
-import { r as registerInstance, h, g as getElement } from './index-7c4f288d.js';
+import { r as registerInstance, h } from './index-d3227635.js';
 
 const data = [
   {
@@ -43,76 +43,36 @@ const data = [
   },
 ];
 
-const myCarouselCss = ".container{text-align:center;margin:0 90px}.container h1{text-transform:uppercase}.container .slides{display:flex;transition:transform 0.5s ease-in-out;overflow-x:hidden;width:60%;min-width:700px;margin:auto}.container .slides div{display:flex;flex-direction:column}.container .slides div img{height:600px;width:1000px}.container .button-container{position:absolute;top:40%}.container .button-container .button{background:inherit;border:none;font-size:100px;color:white;cursor:pointer;transition:all 0.5s ease-in-out}.container .button-container .button__next{position:absolute;left:1200px}.container .button-container .button__prev{position:absolute;left:350px}.container .button-container .button:hover{transform:scale(1.5)}.container .button-container .button[disabled],.container .button-container .button[disabled]:hover{opacity:0.25;transform:scale(1);cursor:not-allowed}";
+const myCarouselCss = ".container{text-align:center;margin:0 90px}.container h1{text-transform:uppercase}.container .slides{display:flex;transition:transform 0.5s ease-in-out;overflow-x:hidden;width:60%;min-width:700px;margin:auto}.container .slides div{display:flex;flex-direction:column}.container .slides div img{height:600px;width:1000px}.container .slider-dots{display:flex;justify-content:center}.container .slider-dots .dot{cursor:pointer;height:15px;width:15px;margin:0 2px;background-color:#bbb;border-radius:50%;display:inline-block;transition:background-color 0.6s ease}.container .slider-dots .dot:hover,.container .slider-dots .dot.active{background-color:#717171}.container .button-container{position:absolute;top:40%}.container .button-container .button{background:inherit;border:none;font-size:100px;color:white;cursor:pointer;transition:all 0.5s ease-in-out}.container .button-container .button__next{position:absolute;left:1200px}.container .button-container .button__prev{position:absolute;left:350px}.container .button-container .button:hover{transform:scale(1.5)}.container .button-container .button[disabled],.container .button-container .button[disabled]:hover{opacity:0.25;transform:scale(1);cursor:not-allowed}";
 
 const MyCarousel = class {
   constructor(hostRef) {
     registerInstance(this, hostRef);
-    this.currentSlideNumber = 0;
-    this.nextSlide = 1;
-    this.controls = {
-      prev: null,
-      next: null,
-    };
-    this.currentSlide = (n) => {
-      this.nextSlide = n;
-      this.showNextSlide(this.nextSlide);
-    };
-    this.showNextSlide = (id) => {
-      let i;
-      let slides = this.el.shadowRoot.getElementById("slides");
-      const childNodes = Array.from(slides.childNodes);
-      for (i = 0; i < childNodes.length; i++) {
-        let el = childNodes[i];
-        let title = el.textContent;
-        let titleContainer = this.el.shadowRoot.getElementById("slider-title");
-        let mainSlide = this.el.shadowRoot.querySelector(".slide");
-        if (i === id - 1) {
-          childNodes[i].replaceWith(mainSlide, el);
-          titleContainer.textContent = title;
-        }
-        else if (id === 1) {
-          titleContainer.textContent = this.items[0].title;
-        }
-      }
-    };
+    this.selected = data[0];
+    this.selectedIndex = 0;
   }
-  componentWillLoad() {
-    this.items = data;
+  selectSlide(i) {
+    this.selected = data[i];
+    this.selectedIndex = i;
+  }
+  switchSlide(i) {
+    if (this.selectedIndex >= data.length - 1) {
+      this.selected = data[0];
+      this.selectedIndex = 0;
+    }
+    else {
+      this.selected = data[this.selectedIndex + i];
+      this.selectedIndex += i;
+    }
   }
   componentWillRender() {
     window.setTimeout(() => {
-      this.slide();
-      this.showNextSlide(this.nextSlide);
+      this.switchSlide(1);
     }, 3000);
   }
-  componentDidLoad() {
-    for (let type in this.controls)
-      this.controls[type] = this.el.shadowRoot.querySelector(".button__" + type);
-    this.updateControls();
-  }
-  componentDidUpdate() {
-    this.updateControls();
-  }
-  slide() {
-    let slideTo = this.nextSlide;
-    if (slideTo < 0 || slideTo >= this.items.length)
-      return;
-    this.currentSlideNumber = slideTo;
-    this.nextSlide = slideTo + 1;
-  }
-  updateControls() {
-    this.switchControl("prev", this.nextSlide === 1 ? false : true);
-    this.switchControl("next", this.currentSlideNumber === this.items.length - 1 ? false : true);
-  }
-  switchControl(type, enabled) {
-    if (this.controls[type])
-      this.controls[type].disabled = !enabled;
-  }
   render() {
-    return (h("div", { class: "container" }, h("h1", { tabindex: "1" }, "Do you want to have a trip?"), h("div", { id: "slides", class: "slides" }, this.items.map((slide) => (h("div", { class: "slide" }, h("img", { src: slide.imgUrl, alt: slide.title, id: "slider-img" }), h("span", { id: "slider-title" }, slide.title))))), h("div", { class: "button-container" }, h("button", { type: "button", class: "button button__prev", onClick: this.slide.bind(this, -1), tabindex: "2" }, "\u2039"), h("button", { type: "button", class: "button button__next", onClick: this.slide.bind(this, 1), tabindex: "3" }, "\u203A")), h("div", null, "Slide ", h("span", { tabindex: "4" }, this.nextSlide), "/", h("span", { tabindex: "5" }, this.items.length)), h("div", { class: "slider-dots" }, this.items.map(() => (h("span", { class: "dot", onClick: () => this.currentSlide(this.nextSlide) })))), this.nextSlide === this.items.length && (h("h1", null, "Have you enjoyed the trip?"))));
+    return (h("div", { class: "container" }, h("h1", { tabindex: "1" }, "Do you want to have a trip?"), h("div", { id: "slides", class: "slides" }, h("div", { class: "slide" }, h("img", { src: this.selected.imgUrl, alt: this.selected.title, id: "slider-img" }), h("span", { id: "slider-title" }, this.selected.title))), h("div", { class: "button-container" }, h("button", { type: "button", class: "button button__prev", onClick: () => this.switchSlide(-1), tabindex: "2" }, "\u2039"), h("button", { type: "button", class: "button button__next", onClick: () => this.switchSlide(1), tabindex: "3" }, "\u203A")), h("div", null, "Slide ", h("span", { tabindex: "4" }, this.selectedIndex + 1), "/", h("span", { tabindex: "5" }, data.length)), h("div", { class: "slider-dots" }, data.map((_, index) => (h("span", { class: `dot ${this.selectedIndex === index ? " active" : ""}`, onClick: () => this.selectSlide(index) })))), this.selectedIndex + 1 === data.length && (h("h1", null, "Have you enjoyed the trip?"))));
   }
-  get el() { return getElement(this); }
 };
 MyCarousel.style = myCarouselCss;
 
