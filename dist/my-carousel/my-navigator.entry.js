@@ -8,7 +8,7 @@ const MyNavigator = class {
     this.select = createEvent(this, "select", 7);
   }
   render() {
-    return (h("div", { class: "slider-dots" }, this.data.map((_, index) => (h("span", { class: `dot ${this.selectedIndex === index ? " active" : ""}`, onClick: () => this.select.emit(index) })))));
+    return (h("div", { class: "slider-dots" }, this.data.map((_, index) => (h("span", { class: `dot ${this.selectedIndex === index ? " active" : ""}`, onClick: () => this.select.emit(index), tabindex: "8", role: "button", "aria-pressed": this.selectedIndex === index })))));
   }
 };
 MyNavigator.style = myNavigatorCss;

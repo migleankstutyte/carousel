@@ -48,12 +48,16 @@ export class MyCarousel {
       <div class="container">
         <h1 tabindex="1">Do you want to have a trip?</h1>
         <div class="slide">
-          <img src={this.selected.imgUrl} alt={this.selected.title} />
-          <span>{this.selected.title}</span>
+          <img
+            src={this.selected.imgUrl}
+            alt={this.selected.title}
+            tabindex="4"
+          />
+          <span tabindex="7">{this.selected.title}</span>
         </div>
         <div class="slide-count">
-          <span tabindex="4">{this.selectedIndex + 1}</span>/
-          <span tabindex="5">{data.length}</span>
+          <span tabindex="5">{this.selectedIndex + 1}</span>/
+          <span tabindex="6">{data.length}</span>
         </div>
         <div class="button-container">
           <button

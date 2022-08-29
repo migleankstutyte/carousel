@@ -18,6 +18,9 @@ export class MyNavigator {
           <span
             class={`dot ${this.selectedIndex === index ? " active" : ""}`}
             onClick={() => this.select.emit(index)}
+            tabindex="8"
+            role="button"
+            aria-pressed={this.selectedIndex === index}
           ></span>
         ))}
       </div>
