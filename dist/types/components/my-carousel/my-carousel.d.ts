@@ -1,16 +1,16 @@
+export interface TSlide {
+  title: string;
+  imgUrl: string;
+  selected?: boolean;
+}
 export declare class MyCarousel {
   el: HTMLElement;
   currentSlideNumber: number;
   nextSlide: number;
-  private slidesCount;
-  private slides;
   private controls;
-  private start;
-  private end;
   private items;
   componentWillLoad(): void;
   componentWillRender(): void;
-  getCurrentSlides(): void;
   componentDidLoad(): void;
   componentDidUpdate(): void;
   slide(): void;

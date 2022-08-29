@@ -1,4 +1,4 @@
-import { B as BUILD, c as consoleDevInfo, p as plt, w as win, H, d as doc, N as NAMESPACE, a as promiseResolve, b as bootstrapLazy } from './index-24af656b.js';
+import { B as BUILD, c as consoleDevInfo, p as plt, w as win, H, d as doc, N as NAMESPACE, a as promiseResolve, b as bootstrapLazy } from './index-7c4f288d.js';
 import { g as globalScripts } from './app-globals-0f993ce5.js';
 
 /*
