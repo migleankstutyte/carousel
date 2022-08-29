@@ -42,17 +42,14 @@ export class MyCarousel {
     return (
       <div class="container">
         <h1 tabindex="1">Do you want to have a trip?</h1>
-        <div id="slides" class="slides">
-          <div class="slide">
-            <img
-              src={this.selected.imgUrl}
-              alt={this.selected.title}
-              id="slider-img"
-            />
-            <span id="slider-title">{this.selected.title}</span>
-          </div>
+        <div class="slide">
+          <img src={this.selected.imgUrl} alt={this.selected.title} />
+          <span>{this.selected.title}</span>
         </div>
-
+        <div class="slide-count">
+          <span tabindex="4">{this.selectedIndex + 1}</span>/
+          <span tabindex="5">{data.length}</span>
+        </div>
         <div class="button-container">
           <button
             type="button"
@@ -70,11 +67,6 @@ export class MyCarousel {
           >
             &rsaquo;
           </button>
-        </div>
-
-        <div>
-          Slide <span tabindex="4">{this.selectedIndex + 1}</span>/
-          <span tabindex="5">{data.length}</span>
         </div>
         <div class="slider-dots">
           {data.map((_, index) => (
