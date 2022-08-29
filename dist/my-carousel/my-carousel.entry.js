@@ -1,4 +1,4 @@
-import { r as registerInstance, h } from './index-210ef1a0.js';
+import { r as registerInstance, h } from './index-b82b36ef.js';
 
 const data = [
   {
@@ -43,13 +43,16 @@ const data = [
   },
 ];
 
-const myCarouselCss = ".container{display:flex;flex-direction:column;align-items:center}.container h1{text-transform:uppercase}.container .slide{display:flex;flex-direction:column;align-items:center}.container .slide img{height:600px;width:1000px;padding-bottom:20px}.container .slide span{font-size:20px;letter-spacing:2px}.container .slide-count{position:relative;bottom:75px;left:460px;color:white;font-size:20px}.container .slider-dots{display:flex;justify-content:center}.container .slider-dots .dot{cursor:pointer;height:15px;width:15px;margin:0 2px;background-color:#bbb;border-radius:50%;display:inline-block;transition:background-color 0.6s ease}.container .slider-dots .dot:hover,.container .slider-dots .dot.active{background-color:#717171}.container .button-container{position:absolute;top:35%}.container .button-container .button{background:inherit;border:none;font-size:100px;color:white;cursor:pointer;transition:all 0.5s ease-in-out}.container .button-container .button__next,.container .button-container .button__prev{position:relative}.container .button-container .button__next{left:400px}.container .button-container .button__prev{right:400px}.container .button-container .button:hover{transform:scale(1.5)}";
+const myCarouselCss = ".container{display:flex;flex-direction:column;align-items:center}.container h1{text-transform:uppercase}.container .slide{display:flex;flex-direction:column;align-items:center}.container .slide img{height:600px;width:1000px;padding-bottom:20px}.container .slide span{font-size:20px;letter-spacing:2px}.container .slide-count{position:relative;bottom:75px;left:460px;color:white;font-size:20px}.container .button-container{position:absolute;top:35%}.container .button-container .button{background:inherit;border:none;font-size:100px;color:white;cursor:pointer;transition:all 0.5s ease-in-out}.container .button-container .button__next,.container .button-container .button__prev{position:relative}.container .button-container .button__next{left:400px}.container .button-container .button__prev{right:400px}.container .button-container .button:hover{transform:scale(1.5)}";
 
 const MyCarousel = class {
   constructor(hostRef) {
     registerInstance(this, hostRef);
     this.selected = data[0];
     this.selectedIndex = 0;
+  }
+  handleSelectSlide(event) {
+    this.selectSlide(event.detail);
   }
   selectSlide(i) {
     this.selected = data[i];
@@ -71,7 +74,7 @@ const MyCarousel = class {
     }, this.duration);
   }
   render() {
-    return (h("div", { class: "container" }, h("h1", { tabindex: "1" }, "Do you want to have a trip?"), h("div", { class: "slide" }, h("img", { src: this.selected.imgUrl, alt: this.selected.title }), h("span", null, this.selected.title)), h("div", { class: "slide-count" }, h("span", { tabindex: "4" }, this.selectedIndex + 1), "/", h("span", { tabindex: "5" }, data.length)), h("div", { class: "button-container" }, h("button", { type: "button", class: "button button__prev", onClick: () => this.switchSlide(-1), tabindex: "2" }, "\u2039"), h("button", { type: "button", class: "button button__next", onClick: () => this.switchSlide(1), tabindex: "3" }, "\u203A")), h("div", { class: "slider-dots" }, data.map((_, index) => (h("span", { class: `dot ${this.selectedIndex === index ? " active" : ""}`, onClick: () => this.selectSlide(index) })))), this.selectedIndex + 1 === data.length && (h("h1", null, "Have you enjoyed the trip?"))));
+    return (h("div", { class: "container" }, h("h1", { tabindex: "1" }, "Do you want to have a trip?"), h("div", { class: "slide" }, h("img", { src: this.selected.imgUrl, alt: this.selected.title }), h("span", null, this.selected.title)), h("div", { class: "slide-count" }, h("span", { tabindex: "4" }, this.selectedIndex + 1), "/", h("span", { tabindex: "5" }, data.length)), h("div", { class: "button-container" }, h("button", { type: "button", class: "button button__prev", onClick: () => this.switchSlide(-1), tabindex: "2" }, "\u2039"), h("button", { type: "button", class: "button button__next", onClick: () => this.switchSlide(1), tabindex: "3" }, "\u203A")), h("my-navigator", { data: data, selectedIndex: this.selectedIndex }), this.selectedIndex + 1 === data.length && h("h1", null, "Have you enjoyed?")));
   }
 };
 MyCarousel.style = myCarouselCss;

@@ -1,5 +1,6 @@
 /* MyCarousel custom elements */
 export { MyCarousel as MyCarousel } from '../types/components/my-carousel/my-carousel';
+export { MyNavigator as MyNavigator } from '../types/components/my-navigator/my-navigator';
 
 /**
  * Used to manually set the base path where assets can be found.

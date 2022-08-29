@@ -7,6 +7,7 @@ export declare class MyCarousel {
   duration: number;
   selected: TSlide;
   selectedIndex: number;
+  handleSelectSlide(event: any): void;
   selectSlide(i: number): void;
   switchSlide(i: number): void;
   componentWillRender(): void;

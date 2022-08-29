@@ -1,4 +1,4 @@
-import { Component, h, State, Method, Prop } from "@stencil/core";
+import { Component, h, State, Method, Prop, Listen } from "@stencil/core";
 import data from "./data";
 
 export interface TSlide {
@@ -15,6 +15,11 @@ export class MyCarousel {
   @Prop() duration: number;
   @State() selected: TSlide = data[0];
   @State() selectedIndex: number = 0;
+
+  @Listen("select")
+  handleSelectSlide(event) {
+    this.selectSlide(event.detail);
+  }
 
   @Method()
   selectSlide(i: number) {
@@ -68,17 +73,11 @@ export class MyCarousel {
             &rsaquo;
           </button>
         </div>
-        <div class="slider-dots">
-          {data.map((_, index) => (
-            <span
-              class={`dot ${this.selectedIndex === index ? " active" : ""}`}
-              onClick={() => this.selectSlide(index)}
-            ></span>
-          ))}
-        </div>
-        {this.selectedIndex + 1 === data.length && (
-          <h1>Have you enjoyed the trip?</h1>
-        )}
+        <my-navigator
+          data={data}
+          selectedIndex={this.selectedIndex}
+        ></my-navigator>
+        {this.selectedIndex + 1 === data.length && <h1>Have you enjoyed?</h1>}
       </div>
     );
   }
